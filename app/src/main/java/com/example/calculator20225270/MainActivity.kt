@@ -1,168 +1,154 @@
 package com.example.calculator20225270
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var textResult: TextView
-    var state : Int =1
-    var op: Int = 0;
-    var op1: Int = 0;
-    var op2: Int = 0;
-    var op3: Int = 0;
-    var op4: Double = 0.0;
-    var opcong: Int = 0;
-    var optru: Int = 0;
-    var opnhan: Int = 0;
-    var opchia: Int = 0;
+    private lateinit var textResult: TextView
+    private var state: Int = 1
+    private var operator: Char? = null
+    private var op1: Int = 0
+    private var op2: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         textResult = findViewById(R.id.text_result)
-        findViewById<Button>(R.id.button0).setOnClickListener(this)
-        findViewById<Button>(R.id.button1).setOnClickListener(this)
-        findViewById<Button>(R.id.button2).setOnClickListener(this)
-        findViewById<Button>(R.id.button3).setOnClickListener(this)
-        findViewById<Button>(R.id.button4).setOnClickListener(this)
-        findViewById<Button>(R.id.button5).setOnClickListener(this)
-        findViewById<Button>(R.id.button6).setOnClickListener(this)
-        findViewById<Button>(R.id.button7).setOnClickListener(this)
-        findViewById<Button>(R.id.button8).setOnClickListener(this)
-        findViewById<Button>(R.id.button9).setOnClickListener(this)
-        findViewById<Button>(R.id.buttonCE).setOnClickListener(this)
-        findViewById<Button>(R.id.buttonC).setOnClickListener(this)
-        findViewById<Button>(R.id.buttonBS).setOnClickListener(this)
-        findViewById<Button>(R.id.buttonchia).setOnClickListener(this)
-        findViewById<Button>(R.id.buttonnhan).setOnClickListener(this)
-        findViewById<Button>(R.id.buttontru).setOnClickListener(this)
-        findViewById<Button>(R.id.buttoncong).setOnClickListener(this)
-        findViewById<Button>(R.id.buttonamduong).setOnClickListener(this)
-        findViewById<Button>(R.id.buttonphay).setOnClickListener(this)
-        findViewById<Button>(R.id.buttonbang).setOnClickListener(this)
-    }
-    override fun onClick(p0: View?) {
-        val id = p0?.id
-        if (id == R.id.button0) {
-            addDigit(0)
-        } else if (id == R.id.button1) {
-            addDigit(1)
-        } else if (id == R.id.button2) {
-            addDigit(2)
-        } else if (id == R.id.button3) {
-            addDigit(3)
-        } else if (id == R.id.button4) {
-            addDigit(4)
-        } else if (id == R.id.button5) {
-            addDigit(5)
-        } else if (id == R.id.button6) {
-            addDigit(6)
-        } else if (id == R.id.button7) {
-            addDigit(7)
-        } else if (id == R.id.button8) {
-            addDigit(8)
-        } else if (id == R.id.button9) {
-            addDigit(9)
-        } else if (id == R.id.buttoncong) {
-            opcong = 1
-            state = 2
-        } else if (id == R.id.buttontru) {
-            optru = 1
-            state = 2
-        } else if (id == R.id.buttonnhan) {
-            opnhan = 1
-            state = 2
-        } else if (id == R.id.buttonchia) {
-            opchia = 1
-            state = 2
-        } else if (id == R.id.buttonBS) {
-            backspace()
 
-        }else if (id == R.id.buttonCE) {
-            clearentry()
+        val buttons = listOf(
+            R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4,
+            R.id.button5, R.id.button6, R.id.button7, R.id.button8, R.id.button9,
+            R.id.buttonCE, R.id.buttonC, R.id.buttonBS,
+            R.id.buttoncong, R.id.buttontru, R.id.buttonnhan, R.id.buttonchia,
+            R.id.buttonamduong, R.id.buttonphay, R.id.buttonbang
+        )
 
-        }else if (id == R.id.buttonC) {
-            clearall()
-
-        } else if (id == R.id.buttonamduong) {
-            doidau()
-
+        buttons.forEach {
+            findViewById<Button>(it).setOnClickListener(this)
         }
-        else if (id == R.id.buttonbang) {
-            var result = 0
-            if (opcong == 1) {
-                result = op1 + op2
-            } else if (optru == 1) {
-                result = op1 - op2
-            } else if (opnhan == 1) {
-                result = op1 * op2
-            } else if (opchia == 1) {
-                result = op1 / op2
+    }
+
+    override fun onClick(view: View?) {
+        when (view?.id) {
+            R.id.button0 -> addDigit(0)
+            R.id.button1 -> addDigit(1)
+            R.id.button2 -> addDigit(2)
+            R.id.button3 -> addDigit(3)
+            R.id.button4 -> addDigit(4)
+            R.id.button5 -> addDigit(5)
+            R.id.button6 -> addDigit(6)
+            R.id.button7 -> addDigit(7)
+            R.id.button8 -> addDigit(8)
+            R.id.button9 -> addDigit(9)
+
+            R.id.buttoncong -> {
+                operator = '+'
+                state = 2
             }
 
+            R.id.buttontru -> {
+                operator = '-'
+                state = 2
+            }
 
+            R.id.buttonnhan -> {
+                operator = '*'
+                state = 2
+            }
 
-            textResult.text = "$result"
-            state = 1
+            R.id.buttonchia -> {
+                operator = '/'
+                state = 2
+            }
+
+            R.id.buttonBS -> backspace()
+            R.id.buttonCE -> clearEntry()
+            R.id.buttonC -> clearAll()
+            R.id.buttonamduong -> toggleSign()
+
+            R.id.buttonbang -> calculateResult()
+
+            R.id.buttonphay -> {
+                // Chưa update
+            }
+        }
+    }
+
+    private fun addDigit(c: Int) {
+        if (state == 1) {
+            op1 = op1 * 10 + c
+            textResult.text = op1.toString()
+        } else {
+            op2 = op2 * 10 + c
+            textResult.text = op2.toString()
+        }
+    }
+
+    private fun backspace() {
+        if (state == 1) {
+            op1 /= 10
+            textResult.text = op1.toString()
+        } else {
+            op2 /= 10
+            textResult.text = op2.toString()
+        }
+    }
+
+    private fun clearEntry() {
+        if (state == 1) {
             op1 = 0
+            textResult.text = op1.toString()
+        } else {
             op2 = 0
-            opcong = 0
-            optru = 0
-            opnhan = 0
-            opchia = 0
-            op3 == 1
-
+            textResult.text = op2.toString()
         }
     }
 
-    fun backspace(){
-        if (state == 1){
-            op1 = op1/10
-            textResult.text ="$op1"
-        }else {
-            op2 = op2/10
-            textResult.text= "$op2"
-        }
-    }
-    fun clearentry(){
-        if (state == 1){
-            op1 = 0
-            textResult.text ="$op1"
-        }else {
-            op2 = 0
-            textResult.text= "$op2"
-        }
-    }
-    fun clearall(){
+    private fun clearAll() {
         op1 = 0
         op2 = 0
         state = 1
+        operator = null
         textResult.text = "0"
     }
-    fun doidau() {
+
+    private fun toggleSign() {
         if (state == 1) {
             op1 = -op1
-            textResult.text = "$op1"
+            textResult.text = op1.toString()
         } else {
             op2 = -op2
-            textResult.text = "$op2"
+            textResult.text = op2.toString()
         }
     }
-    fun addDigit (c:Int){
-        if(state ==1){
-            op1 = op1*10+c
-            textResult.text ="$op1"
-        }else {
-            op2 = op2*10+c
-            textResult.text= "$op2"
+
+    private fun calculateResult() {
+        var result = 0
+        when (operator) {
+            '+' -> result = op1 + op2
+            '-' -> result = op1 - op2
+            '*' -> result = op1 * op2
+            '/' -> {
+                result = if (op2 != 0) {
+                    op1 / op2
+                } else {
+                    textResult.text = "Error"
+                    return
+                }
+            }
+            else -> return
         }
 
+        textResult.text = result.toString()
+        // Reset lại cho phép tính tiếp theo
+        op1 = result
+        op2 = 0
+        operator = null
+        state = 1
     }
 }
