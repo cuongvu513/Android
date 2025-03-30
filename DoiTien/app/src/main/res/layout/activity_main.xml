@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Nhập số tiền -->
+    <EditText
+        android:id="@+id/edtAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:inputType="numberDecimal"
+        android:hint="Nhập số tiền" />
+
+    <TextView
+        android:id="@+id/txtFromSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:text="$" />
+
+    <!-- Chọn loại tiền nguồn -->
+    <Spinner
+        android:id="@+id/spnFrom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Hiển thị kết quả chuyển đổi -->
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:text="$ 0.00"
+        android:paddingTop="16dp" />
+
+    <TextView
+        android:id="@+id/txtToSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="$" />
+
+    <!-- Hiển thị tỷ giá -->
+    <TextView
+        android:id="@+id/txtExchangeRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:text="Tỷ giá: 1 USD = 23,185 VND"
+        android:paddingTop="4dp" />
+
+    <!-- Chọn loại tiền đích -->
+    <Spinner
+        android:id="@+id/spnTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Nút chuyển đổi -->
+    <Button
+        android:id="@+id/btnConvert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chuyển đổi"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
